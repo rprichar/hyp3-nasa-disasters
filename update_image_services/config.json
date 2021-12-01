@@ -1,6 +1,7 @@
 {
   "raster_store": "/home/arcgis/raster_store/",
   "time_period_in_days": 31,
+  "raster_type_file":"/home/arcgis/RTCservices/rastertype_rtc_comp_vv_vh.art.xml",
   "datasets": [
     {
       "raster_location": "/vsis3/hyp3-nasa-disasters/RTC_services/",
