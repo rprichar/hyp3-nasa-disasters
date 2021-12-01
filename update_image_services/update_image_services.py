@@ -90,13 +90,50 @@ def main(config):
         log.info(f'Updating {dataset["derived_mosaic"]}')
         arcpy.management.RemoveRastersFromMosaicDataset(in_mosaic_dataset=dataset['derived_mosaic'],
                                                         where_clause='OBJECTID>=0')
-        arcpy.management.AddRastersToMosaicDataset(
+# Archived code - Beginning
+#        arcpy.management.AddRastersToMosaicDataset(
+#            in_mosaic_dataset=dataset['derived_mosaic'],
+#            raster_type='Table / Raster Catalog',
+#            input_path=dataset['source_mosaic'],
+#            update_cellsize_ranges='NO_CELL_SIZES',
+#        )
+#        selection = arcpy.management.SelectLayerByAttribute(
+#            in_layer_or_view=dataset['derived_mosaic'],
+#            selection_type='NEW_SELECTION',
+#            where_clause="Name NOT LIKE 'Ovi_%'",
+#        )
+#        arcpy.management.CalculateFields(
+#            in_table=selection,
+#            fields=[
+#                ['MinPS', '0'],
+#            ],
+#        )
+#
+#        log.info(f'Building the boundary file for {dataset["referenced_mosaic"]}')
+#        arcpy.management.BuildBoundary(in_mosaic_dataset=dataset['referenced_mosaic'])
+#
+#        log.info('Finished')
+# Archived code - End
+# Edited code - Beginning
+
+        # using 'comp' is the designator, change if necessary
+        if 'comp' in dataset['derived_mosaic']:
+            arcpy.management.AddRastersToMosaicDataset(
             in_mosaic_dataset=dataset['derived_mosaic'],
-            raster_type='Table / Raster Catalog',
+            # added the raster_type_file to the config
+            raster_type=config['raster_type_file'],
             input_path=dataset['source_mosaic'],
             update_cellsize_ranges='NO_CELL_SIZES',
-        )
-        selection = arcpy.management.SelectLayerByAttribute(
+            )
+
+        else:
+            arcpy.management.AddRastersToMosaicDataset(
+                in_mosaic_dataset=dataset['derived_mosaic'],
+                raster_type='Table / Raster Catalog',
+                input_path=dataset['source_mosaic'],
+                update_cellsize_ranges='NO_CELL_SIZES',
+            )
+# Edited code - End        selection = arcpy.management.SelectLayerByAttribute(
             in_layer_or_view=dataset['derived_mosaic'],
             selection_type='NEW_SELECTION',
             where_clause="Name NOT LIKE 'Ovi_%'",
